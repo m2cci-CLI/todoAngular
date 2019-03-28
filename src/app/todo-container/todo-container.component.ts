@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Todo } from '../model/Todo';
 import { TodoListComponent } from '../todo-list/todo-list.component';
+import TodoService from '../TodoServices/TodoService';
 @Component({
   selector: 'app-todo-container',
   templateUrl: './todo-container.component.html',
@@ -9,17 +10,15 @@ import { TodoListComponent } from '../todo-list/todo-list.component';
 export class TodoContainerComponent implements OnInit {
   todos: Array<Todo> = [];
 
-  constructor() { }
-  addTodo(texte){
-    let x:number= this.todos.length
-    this.todos.push(new Todo(texte, false,x));
+  constructor(public todoService: TodoService) { }
+  addTodo(texte) {
+    this.todoService.addTodo(texte).then(p => this.todos = p)
   }
   updateTodo(todo) {
-    let index = this.todos.findIndex(t => t.id === todo.id);
-    this.todos[index].isDone = todo.isDone
+    this.todoService.updateTodo(todo).then(p => this.todos = p)
   }
   ngOnInit() {
-    this.todos = [];
-    
+    this.todoService.getTodo().then(p => this.todos = p)
+
   }
 }
