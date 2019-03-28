@@ -1,0 +1,6 @@
+<ul>
+  
+  <li *ngFor="let todo of todos">
+    <app-todo-item [todo]='todo' (todoSelected)='modifTodo($event)'></app-todo-item>
+  </li>
+</ul>
